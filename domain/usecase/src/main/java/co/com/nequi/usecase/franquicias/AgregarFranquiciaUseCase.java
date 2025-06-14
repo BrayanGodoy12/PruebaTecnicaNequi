@@ -8,9 +8,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AgregarFranquiciaUseCase {
 
-    //private final FranquiciaRepository franquiciaRepository;
+    private final FranquiciaRepository franquiciaRepository;
 
     public Mono<Franquicia> crearFranquicia(Franquicia franquicia) {
-        return Mono.just(Franquicia.builder().nombre("Nequi").id("123").build());
+        return franquiciaRepository.createFranquicia(franquicia);
     }
 }

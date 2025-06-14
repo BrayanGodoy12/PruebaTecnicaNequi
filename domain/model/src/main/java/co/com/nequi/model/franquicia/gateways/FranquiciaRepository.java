@@ -1,6 +1,7 @@
 package co.com.nequi.model.franquicia.gateways;
 
 import co.com.nequi.model.franquicia.Franquicia;
+import co.com.nequi.model.franquicia.valueobject.FranquiciaId;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -8,10 +9,16 @@ import java.util.List;
 public interface FranquiciaRepository {
 
     Mono<Franquicia> getFranquicia(String id);
+
     Mono<List<Franquicia>> listFranquicias();
+
     Mono<Franquicia> updateFranquicia(Franquicia franquicia);
+
     Mono<Franquicia> createFranquicia(Franquicia franquicia);
+
     Mono<Franquicia> deleteFranquicia(String id);
+
+    Mono<Franquicia> consultarMayorProductoSucursal(FranquiciaId idFranquicia);
 
 
 }
