@@ -10,7 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SucursalesUseCase {
 
-    private SucursalRepository sucursalRepository;
+    //private SucursalRepository sucursalRepository;
 
 
     public Mono<Sucursal> getSucursal(String idSucursal){
@@ -19,9 +19,7 @@ public class SucursalesUseCase {
     public Mono<List<Sucursal>> getSucursalesByFranquicia(String idFranquicia){
         return Mono.empty();
     }
-    public Mono<Sucursal> updateSucursal(Sucursal sucursal){
-        return Mono.empty();
-    }
+
     public Mono<Sucursal> deleteSucursal(String idsucursal){
         return Mono.empty();
     }
