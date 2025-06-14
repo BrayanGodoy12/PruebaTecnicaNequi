@@ -8,10 +8,10 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ActualizarSucursalUseCase {
 
-    //private SucursalRepository sucursalRepository;
+    private SucursalRepository sucursalRepository;
 
-    public Mono<Sucursal> actualizarSucursal(Sucursal sucursal){
-        return Mono.empty();
+    public Mono<Sucursal> actualizarSucursal(Sucursal sucursal) {
+        return sucursalRepository.updateSucursal(sucursal);
     }
 
 }

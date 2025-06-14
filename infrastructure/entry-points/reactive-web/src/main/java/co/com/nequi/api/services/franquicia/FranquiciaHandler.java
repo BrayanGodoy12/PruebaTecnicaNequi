@@ -1,6 +1,7 @@
 package co.com.nequi.api.services.franquicia;
 
 import co.com.nequi.api.builder.FranquiciaBuilder;
+import co.com.nequi.api.builder.SucursalBuilder;
 import co.com.nequi.usecase.franquicias.ActualizarFranquiciaUseCase;
 import co.com.nequi.usecase.franquicias.AgregarFranquiciaUseCase;
 import co.com.nequi.usecase.franquicias.AgregarSucursalFranquiciaUseCase;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class FranquiciaHandler {
     private final FranquiciaBuilder franquiciaBuilder;
+    private final SucursalBuilder sucursalBuilder;
     private final AgregarFranquiciaUseCase agregarFranquiciaUseCase;
     private final ActualizarFranquiciaUseCase actualizarFranquiciaUseCase;
     private final AgregarSucursalFranquiciaUseCase agregarSucursalFranquiciaUseCase;
@@ -40,7 +42,7 @@ public class FranquiciaHandler {
     public Mono<ServerResponse> agregarSucursalFranquicia(ServerRequest serverRequest) {
         return franquiciaBuilder.agregarSucursalFranquicia(serverRequest)
                 .flatMap(agregarSucursalFranquiciaUseCase::agregarSucursalFranquicia)
-                .flatMap(franquiciaBuilder::constuirFranquiciaDTOdeEntidad)
+                .flatMap(sucursalBuilder::constuirSucursalResponseDTO)
                 .flatMap(franquiciaResponseDTO ->
                         ServerResponse.ok().bodyValue(franquiciaResponseDTO));
     }
@@ -52,7 +54,6 @@ public class FranquiciaHandler {
                 .flatMap(franquiciaResponseDTO ->
                         ServerResponse.ok().bodyValue(franquiciaResponseDTO));
     }
-
 
 
 }

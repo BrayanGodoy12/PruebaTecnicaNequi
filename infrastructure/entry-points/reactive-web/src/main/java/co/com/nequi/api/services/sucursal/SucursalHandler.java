@@ -2,7 +2,6 @@ package co.com.nequi.api.services.sucursal;
 
 import co.com.nequi.api.builder.ProductoBuilder;
 import co.com.nequi.api.builder.SucursalBuilder;
-import co.com.nequi.model.producto.valueobject.ProductoId;
 import co.com.nequi.usecase.sucursales.ActualizarSucursalUseCase;
 import co.com.nequi.usecase.sucursales.AgregarProductoSucursalUseCase;
 import co.com.nequi.usecase.sucursales.EliminarProductoSucursalUseCase;
@@ -32,7 +31,7 @@ public class SucursalHandler {
     public Mono<ServerResponse> agregarProductoSucursal(ServerRequest serverRequest) {
         return sucursalBuilder.agregarProductoSucursal(serverRequest)
                 .flatMap(agregarProductoSucursalUseCase::agregarProducto)
-                .flatMap(sucursalBuilder::constuirSucursalResponseDTO)
+                .flatMap(productoBuilder::constuirProductoResponseDTO)
                 .flatMap(producto -> ServerResponse.ok().bodyValue(producto));
     }
 
