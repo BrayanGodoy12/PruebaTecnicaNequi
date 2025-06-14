@@ -1,8 +1,7 @@
-package co.com.nequi.api.commons.dto;
+package co.com.nequi.api.commons.dto.request;
 
 public record FranquiciaRequestDTO(
-   String nombre,
-   String id
+   String nombre
 ) {
 
     public FranquiciaRequestDTO {

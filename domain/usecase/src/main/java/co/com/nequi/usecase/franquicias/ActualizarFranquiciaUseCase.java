@@ -11,7 +11,7 @@ public class ActualizarFranquiciaUseCase {
 
     //private final FranquiciaRepository franquiciaRepository;
 
-    public Mono<Franquicia> actualizarFranquicia(FranquiciaId franquicia){
+    public Mono<Franquicia> actualizarFranquicia(Franquicia franquicia){
         return Mono.empty();
     }
 }

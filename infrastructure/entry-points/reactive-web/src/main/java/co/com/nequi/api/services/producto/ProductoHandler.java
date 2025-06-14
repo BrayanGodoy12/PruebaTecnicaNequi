@@ -1,5 +1,7 @@
 package co.com.nequi.api.services.producto;
 
+import co.com.nequi.api.builder.ProductoBuilder;
+import co.com.nequi.usecase.productos.ActualizarProductoUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -9,21 +11,15 @@ import reactor.core.publisher.Mono;
 @Component
 @RequiredArgsConstructor
 public class ProductoHandler {
-//private  final UseCase useCase;
-//private  final UseCase2 useCase2;
+    private final ActualizarProductoUseCase actualizarProductoUseCase;
+    private final ProductoBuilder productoBuilder;
 
-    public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
-        // useCase.logic();
-        return ServerResponse.ok().bodyValue("");
+    public Mono<ServerResponse> actualizarStockProducto(ServerRequest serverRequest) {
+        return productoBuilder.construirProducto(serverRequest)
+                .flatMap(actualizarProductoUseCase::actualizarStockProducto)
+                .flatMap(productoBuilder::constuirProductoResponseDTO)
+                .flatMap(producto -> ServerResponse.ok().bodyValue(producto));
     }
 
-    public Mono<ServerResponse> listenGETOtherUseCase(ServerRequest serverRequest) {
-        // useCase2.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
 
-    public Mono<ServerResponse> listenPOSTUseCase(ServerRequest serverRequest) {
-        // useCase.logic();
-        return ServerResponse.ok().bodyValue("");
-    }
 }

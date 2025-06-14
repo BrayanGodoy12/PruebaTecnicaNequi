@@ -1,8 +1,6 @@
 package co.com.nequi.usecase.sucursales;
 
-import co.com.nequi.model.producto.Producto;
-import co.com.nequi.model.sucursal.Sucursal;
-import co.com.nequi.model.sucursal.valueobject.SucursalId;
+import co.com.nequi.model.producto.valueobject.ProductoId;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -10,7 +8,7 @@ import reactor.core.publisher.Mono;
 public class EliminarProductoSucursalUseCase {
     //private final Producto producto;
 
-    public Mono<Producto> deleteProductSucursal(SucursalId sucursal){
+    public Mono<ProductoId> eliminarProductSucursal(ProductoId productoId) {
         return Mono.empty();
     }
 }
