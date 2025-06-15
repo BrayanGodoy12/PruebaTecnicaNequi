@@ -32,12 +32,12 @@ public class ProductoRepositoryAdapter extends ReactiveAdapterOperations<
                 .flatMap(this::saveData)
                 .map(ProductoRepositoryAdapter::getProducto)
                 .switchIfEmpty(Mono.defer(() ->
-                        Mono.error(new RuntimeException("Product creation failed"))));
+                        Mono.error(new BusinessException(BusinessErrorMessage.PRODUCTO_CREATION_FAILED))));
     }
 
     @Override
     public Mono<Producto> updateProduct(Sucursal sucursal) {
-        return repository.findById(sucursal.getProductos().get(0).getId())
+        return repository.findById(sucursal.getProductos().getFirst().getId())
                 .switchIfEmpty(Mono.defer(() ->
                         Mono.error(new BusinessException(BusinessErrorMessage.PRODUCTO_NOT_FOUND))))
                 .flatMap(existingProduct -> {
@@ -72,9 +72,9 @@ public class ProductoRepositoryAdapter extends ReactiveAdapterOperations<
     private static ProductoData getProductoData(Sucursal sucursal) {
         return ProductoData
                 .builder()
-                .id(sucursal.getProductos().get(0).getId())
-                .nombre(sucursal.getProductos().get(0).getNombre())
-                .cantidad(BigDecimal.valueOf(sucursal.getProductos().get(0).getCantidad()))
+                .id(sucursal.getProductos().getFirst().getId())
+                .nombre(sucursal.getProductos().getFirst().getNombre())
+                .cantidad(BigDecimal.valueOf(sucursal.getProductos().getFirst().getCantidad()))
                 .sucursalId(sucursal.getId())
                 .build();
     }

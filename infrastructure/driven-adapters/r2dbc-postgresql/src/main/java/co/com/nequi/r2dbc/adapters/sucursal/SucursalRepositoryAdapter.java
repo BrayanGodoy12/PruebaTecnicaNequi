@@ -25,7 +25,7 @@ public class SucursalRepositoryAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Sucursal> updateSucursal(Franquicia franquicia) {
-        return repository.findById(franquicia.getSucursales().get(0).getId())
+        return repository.findById(franquicia.getSucursales().getFirst().getId())
                 .switchIfEmpty(Mono.defer(() ->
                         Mono.error(new BusinessException(BusinessErrorMessage.SUCURSAL_NOT_FOUND))))
                 .flatMap(existingSucursal -> {
@@ -59,8 +59,8 @@ public class SucursalRepositoryAdapter extends ReactiveAdapterOperations<
     private static SucursalData getSucursalData(Franquicia franquicia1) {
         return SucursalData
                 .builder()
-                .id(franquicia1.getSucursales().get(0).getId())
-                .nombre(franquicia1.getSucursales().get(0).getNombre())
+                .id(franquicia1.getSucursales().getFirst().getId())
+                .nombre(franquicia1.getSucursales().getFirst().getNombre())
                 .franquiciaId(franquicia1.getId())
                 .build();
     }

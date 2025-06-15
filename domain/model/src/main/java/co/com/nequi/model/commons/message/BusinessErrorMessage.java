@@ -1,5 +1,8 @@
 package co.com.nequi.model.commons.message;
 
+import lombok.Getter;
+
+@Getter
 public enum BusinessErrorMessage {
     FRANQUICIA_NOT_FOUND("Franquicia no encontrada"),
     UNKNOWN_ERROR("Error desconocido"),
@@ -10,7 +13,7 @@ public enum BusinessErrorMessage {
     PRODUCTO_DELETION_FAILED("Error al eliminar el producto"),
     PRODUCTO_UPDATE_FAILED("Error al actualizar el producto"),
     SUCURSAL_NOT_FOUND("Sucursal no encontrada"),
-    ;
+    PRODUCTO_CREATION_FAILED("Error al crear el producto"),;
 
     private final String message;
 
@@ -18,7 +21,4 @@ public enum BusinessErrorMessage {
         this.message = message;
     }
 
-    public String getMessage() {
-        return message;
-    }
 }
