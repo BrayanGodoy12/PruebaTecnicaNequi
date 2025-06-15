@@ -46,17 +46,7 @@ Este módulo es el más externo de la arquitectura, es el encargado de ensamblar
 
 **Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
 
----
 
-# 🚀 Requisitos para levantar el proyecto en local
-
-- **Java 17** o superior
-- **Gradle** (o usa el wrapper: `./gradlew`)
-- **Docker** y **Docker Compose** (recomendado: ejecuta Docker desde WSL en Windows para evitar problemas de red y permisos)
-- **Git**
-- **psql** (opcional, para cargar el esquema manualmente)
-
----
 
 # 🏗️ Paso a paso para levantar el proyecto
 
@@ -67,50 +57,63 @@ git clone https://github.com/BrayanGodoy12/PruebaTecnicaNequi.git
 cd PruebaTecnicaNequi
 ```
 
-## 2. Levanta la base de datos con Docker (desde WSL)
 
-Abre tu terminal WSL y ejecuta:
 
-```bash
-docker-compose -f applications/app-service/src/main/resources/docker-compose.yaml up -d
+
+## 🧰 Requisitos
+
+- Docker
+- Docker Compose
+
+---
+
+## 📦 Estructura esperada
+
+Asegúrate de tener estos archivos en la misma carpeta:
+
+```plaintext
+deployment/
+├── Dockerfile
+├── docker-compose.yaml
+├── PruebaTecnicaNequi.jar
+└── init.sql
 ```
 
-Esto levantará PostgreSQL en el puerto `5432`.
+## 🐳 Pasos para levantar el entorno
 
-## 3. Verifica la base de datos
+### 1. Clona o descomprime este repositorio
 
-Conéctate a `localhost:5432`
-- Usuario: `postgres`
-- Contraseña: `postgres`
-- Base de datos: `franquiciasdb`
+Si te compartieron un `.zip`, simplemente descomprímelo.
 
-## 4. Aplica el esquema de la base de datos
-
-El archivo `applications/app-service/src/main/resources/Franquicia.sql` contiene la estructura.  
-Para cargarlo manualmente:
+Si es por git:
 
 ```bash
-psql -h localhost -U postgres -d franquiciasdb -f applications/app-service/src/main/resources/Franquicia.sql
+git clone <repositorio>
+cd deployment
 ```
+### 2. Construye y levanta los contenedores
+bash
+```bash
+docker-compose up --build
+```
+Este comando:
 
-## 5. Compila el proyecto y genera el `.jar`
+- Construye la imagen de la app (prueba-tecnica-nequi)
+- Levanta un contenedor de PostgreSQL con la base franquiciasdb y el schema
+- Expone el microservicio en http://localhost:8080
+
+### 3. Verifica que los contenedores estén corriendo
 
 ```bash
-./gradlew clean build
+docker ps
 ```
+### 4. La aplicación Spring Boot debería estar corriendo
+Puedes verificarlo accediendo a: curl http://localhost:8080
+Utiliza Postman o tu navegador para probar la API.
 
-El `.jar` generado estará en:  
-`applications/app-service/build/libs/app-service.jar`
-
-## 6. Ejecuta la aplicación desde consola
+### 5. Para detener los contenedores
 
 ```bash
-applications/app-service/build/libs/PruebaTecnicaNequi.jar
+docker-compose down
 ```
-
-## 7. Accede a la API
-
-La aplicación estará disponible en:  
-[http://localhost:8080](http://localhost:8080)
-
 ---
