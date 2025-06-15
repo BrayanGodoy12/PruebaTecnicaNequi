@@ -149,6 +149,14 @@ resource "aws_instance" "microservice" {
               #!/bin/bash
               apt update -y
               apt install -y docker.io
+              apt-get install -y ca-certificates curl
+              # Descarga el certificado raíz de Amazon RDS
+              curl -o /usr/local/share/ca-certificates/global-bundle.crt https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+              # Actualiza el sistema de certificados
+              update-ca-certificates
+
+              sleep 10
+
               systemctl start docker
               systemctl enable docker
               usermod -aG docker ubuntu
