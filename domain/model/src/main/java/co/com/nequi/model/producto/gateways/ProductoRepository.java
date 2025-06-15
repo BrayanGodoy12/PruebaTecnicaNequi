@@ -15,8 +15,4 @@ public interface ProductoRepository {
     Mono<Producto> updateProduct(Sucursal sucursal);
 
     Mono<ProductoId> deleteProduct(ProductoId idProducto);
-
-/*    Mono<Producto> getProduct(ProductoId idProducto);
-
-    Mono<Producto> listProducts(SucursalId idSucursal);*/
 }

@@ -16,16 +16,16 @@ public interface FranquiciaDataRepository extends
         ReactiveQueryByExampleExecutor<FranquiciaData> {
 
   @Query("""
-      SELECT s.id AS sucursal_id,
-             s.nombre AS sucursal_nombre,
-             p.id AS producto_id,
-             p.nombre AS producto_nombre,
-             COUNT(p.id) AS cantidad
-      FROM franquicias_schema.sucursal s
-      JOIN franquicias_schema.producto p ON s.id = p.sucursal_id
-      WHERE s.franquicia_id = :idFranquicia
-      GROUP BY s.id, s.nombre, p.id, p.nombre
-      ORDER BY s.id, cantidad DESC
-      """)
-  Flux<SucursalProductosData> findProductosByFranquiciaIdOrderByCantidadDesc(UUID idFranquicia);
-}
+     
+          SELECT s.id AS sucursal_id,
+            s.nombre AS sucursal_nombre,
+            p.id AS producto_id,
+            p.nombre AS producto_nombre,
+            p.cantidad
+     FROM franquicias_schema.sucursal s
+     JOIN franquicias_schema.producto p ON s.id = p.sucursal_id
+     WHERE s.franquicia_id = :idFranquicia
+     ORDER BY s.id, p.cantidad DESC
+     """)
+ Flux<SucursalProductosData> findProductosByFranquiciaIdOrderByCantidadDesc(UUID idFranquicia);
+ }
