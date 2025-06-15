@@ -3,10 +3,7 @@ package co.com.nequi.model.producto.gateways;
 import co.com.nequi.model.producto.Producto;
 import co.com.nequi.model.producto.valueobject.ProductoId;
 import co.com.nequi.model.sucursal.Sucursal;
-import co.com.nequi.model.sucursal.valueobject.SucursalId;
 import reactor.core.publisher.Mono;
-
-import java.util.UUID;
 
 public interface ProductoRepository {
 
