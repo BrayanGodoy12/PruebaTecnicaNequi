@@ -1,7 +1,9 @@
 package co.com.nequi.api.commons.dto.request;
 
+import java.util.UUID;
+
 public record EliminarProductoSucursalRequestDTO(
-        String idSucursal,
-        String idProducto
+        UUID idSucursal,
+        UUID idProducto
 ) {
 }

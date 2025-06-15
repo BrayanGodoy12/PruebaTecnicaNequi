@@ -1,9 +1,10 @@
 package co.com.nequi.api.commons.dto.response;
 
 import java.util.List;
+import java.util.UUID;
 
 public record FranquiciaResponseDTO(
-        String id,
+        UUID id,
         String nombre,
         List<SucursalResponseDTO> sucursales
 ) {

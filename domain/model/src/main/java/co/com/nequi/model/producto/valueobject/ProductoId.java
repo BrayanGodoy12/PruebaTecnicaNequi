@@ -1,9 +1,11 @@
 package co.com.nequi.model.producto.valueobject;
 
-public record ProductoId(String productoId) {
+import java.util.UUID;
 
-    public ProductoId{
-        if (productoId == null || productoId.isBlank()) {
+public record ProductoId(UUID productoId) {
+
+    public ProductoId {
+        if (productoId == null || productoId.toString().isBlank()) {
             throw new IllegalArgumentException("El id del producto no puede ser nulos");
         }
     }

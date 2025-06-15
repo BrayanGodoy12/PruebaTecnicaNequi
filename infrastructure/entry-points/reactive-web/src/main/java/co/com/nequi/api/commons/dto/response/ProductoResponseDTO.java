@@ -1,7 +1,9 @@
 package co.com.nequi.api.commons.dto.response;
 
+import java.util.UUID;
+
 public record ProductoResponseDTO(
-        String id,
+        UUID id,
         String nombre,
         Integer cantidad
 ) {

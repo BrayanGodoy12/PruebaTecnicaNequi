@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class FranquiciaBuilder {
@@ -30,7 +32,7 @@ public class FranquiciaBuilder {
 
     public Mono<FranquiciaId> construirFranquiciaId(ServerRequest serverRequest) {
         return Mono.just(serverRequest.pathVariable("id"))
-                .map(FranquiciaId::new);
+                .map(s -> new FranquiciaId(UUID.fromString(s)));
     }
 
     public Mono<FranquiciaResponseDTO> constuirFranquiciaDTOdeEntidad(Franquicia franquicia) {
