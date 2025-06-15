@@ -7,15 +7,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
-//@NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Sucursal {
 
-    private String id;
+    private UUID id;
     private String nombre;
     private List<Producto> productos;
 

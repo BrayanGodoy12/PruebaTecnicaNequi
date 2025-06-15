@@ -1,7 +1,9 @@
 package co.com.nequi.api.commons.dto.request;
 
+import java.util.UUID;
+
 public record SucursalFranquiciaRequestDTO(
-        String idFranquicia,
+        UUID idFranquicia,
         String nombre
 ) {
 }

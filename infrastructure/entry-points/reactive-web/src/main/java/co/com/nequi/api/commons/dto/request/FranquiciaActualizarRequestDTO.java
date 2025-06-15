@@ -1,7 +1,9 @@
 package co.com.nequi.api.commons.dto.request;
 
+import java.util.UUID;
+
 public record FranquiciaActualizarRequestDTO(
-        String id,
+        UUID id,
         String nombre
 ) {
 
