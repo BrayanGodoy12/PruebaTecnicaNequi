@@ -138,7 +138,7 @@ resource "aws_security_group" "ec2_sg" {
 
 # EC2 con Docker y microservicio
 resource "aws_instance" "microservice" {
-  ami                         = "ami-0fc5d935ebf8bc3bc"
+  ami                         = "ami-0fc5d935ebf8bc3bc"  # Amazon Linux 2
   instance_type               = "t3.micro"
   subnet_id                   = aws_subnet.public_a.id
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
@@ -147,14 +147,28 @@ resource "aws_instance" "microservice" {
 
   user_data = <<-EOF
               #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y docker
-              sudo service docker start
-              sudo usermod -a -G docker ec2-user
-              docker run -d -p 8080:8080 \
+              apt update -y
+              apt install -y docker.io
+              systemctl start docker
+              systemctl enable docker
+              usermod -aG docker ubuntu
+
+              sleep 10
+
+              docker pull brayang112/microservicio-franquicias:latest
+              sleep 10
+
+              docker run -d --name franquicias \
+                -p 8080:8080 \
                 -e DATABASE_HOST=${aws_db_instance.postgres.address} \
                 -e DATABASE_USERNAME=${var.db_username} \
                 -e DATABASE_PASSWORD=${var.db_password} \
-                prueba-tecnica-nequi
+                brayang112/microservicio-franquicias:latest
               EOF
+
+
+  tags = {
+    Name = "Microservicio Franquicias"
+  }
 }
+

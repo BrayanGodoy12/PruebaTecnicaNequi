@@ -339,3 +339,4 @@ build-cache
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
+/deployment/infrasetructure/.terraform.tfstate.lock.info
