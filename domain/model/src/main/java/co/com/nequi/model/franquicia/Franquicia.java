@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Franquicia {
