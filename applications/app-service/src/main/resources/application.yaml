@@ -22,11 +22,11 @@ management:
         enabled: true
 adapters:
   r2dbc:
-    host: localhost
+    host: ${DATABASE_HOST}
     port: 5432
     database: franquiciasdb
     schema: franquicias_schema
-    username: postgres
-    password: postgres
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"

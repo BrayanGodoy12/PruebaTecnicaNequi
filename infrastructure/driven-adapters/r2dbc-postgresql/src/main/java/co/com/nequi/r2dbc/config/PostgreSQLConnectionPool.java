@@ -24,6 +24,7 @@ public class PostgreSQLConnectionPool {
                 .port(properties.getPort())
                 .database(properties.getDatabase())
                 .schema(properties.getSchema())
+                .enableSsl()
                 .username(properties.getUsername())
                 .password(properties.getPassword())
                 .build();

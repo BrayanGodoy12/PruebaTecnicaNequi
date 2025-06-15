@@ -1,4 +1,4 @@
--- Franquicia.sql
+-- init.sql
 CREATE SCHEMA IF NOT EXISTS franquicias_schema;
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
