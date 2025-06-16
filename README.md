@@ -46,74 +46,106 @@ Este módulo es el más externo de la arquitectura, es el encargado de ensamblar
 
 **Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
 
+# 🐳 Despliegue local usando Docker
 
+Este proyecto puede ejecutarse fácilmente utilizando Docker. A continuación te explicamos cómo hacerlo paso a paso.
 
-# 🏗️ Paso a paso para levantar el proyecto
+---
 
-## 1. Clona el repositorio
+## 1️⃣ Pre-requisitos
+
+Asegúrate de tener instalado:
+
+* [Docker](https://www.docker.com/get-started) (versión 20+ recomendada)
+* [Git](https://git-scm.com/) (para clonar el proyecto si deseas construir localmente)
+
+---
+
+## 2️⃣ Clonar el proyecto y construir la imagen localmente (opcional)
+
+Si deseas construir la imagen desde el código fuente localmente:
 
 ```bash
-git clone https://github.com/BrayanGodoy12/PruebaTecnicaNequi.git
+git clone https://github.com/BrayanGodoy12/PruebaTecnicaNequi
 cd PruebaTecnicaNequi
+./gradlew clean build # o el comando que uses para generar el JAR
 ```
 
+Asegúrate de que el `.jar` generado esté en la misma ruta donde está tu `Dockerfile`. Luego, construye la imagen:
 
-
-
-## 🧰 Requisitos
-
-- Docker
-- Docker Compose
+```bash
+docker build -t brayang112/microservicio-franquicias:latest .
+```
 
 ---
 
-## 📦 Estructura esperada
+## 3️⃣ Descargar la imagen desde Docker Hub (opcional)
 
-Asegúrate de tener estos archivos en la misma carpeta:
-
-```plaintext
-deployment/
-├── Dockerfile
-├── docker-compose.yaml
-├── PruebaTecnicaNequi.jar
-└── init.sql
-```
-
-## 🐳 Pasos para levantar el entorno
-
-### 1. Clona o descomprime este repositorio
-
-Si te compartieron un `.zip`, simplemente descomprímelo.
-
-Si es por git:
+Si no deseas construir localmente, simplemente puedes descargar la imagen ya publicada:
 
 ```bash
-git clone <repositorio>
-cd deployment
+docker pull brayang112/microservicio-franquicias:latest
 ```
-### 2. Construye y levanta los contenedores
-bash
-```bash
-docker-compose up --build
-```
-Este comando:
 
-- Construye la imagen de la app (prueba-tecnica-nequi)
-- Levanta un contenedor de PostgreSQL con la base franquiciasdb y el schema
-- Expone el microservicio en http://localhost:8080
-
-### 3. Verifica que los contenedores estén corriendo
-
-```bash
-docker ps
-```
-### 4. La aplicación Spring Boot debería estar corriendo
-Puedes verificarlo accediendo a: curl http://localhost:8080
-Utiliza Postman o tu navegador para probar la API.
-
-### 5. Para detener los contenedores
-
-```bash
-docker-compose down
-```
 ---
+
+## 4️⃣ Ejecutar el contenedor
+
+Puedes ejecutar el contenedor con las variables necesarias de configuración (por ejemplo, las variables de conexión a base de datos, entorno, etc.).
+
+Ejemplo:
+
+```bash
+docker run -d --name franquicias -p 8080:8080 -e DATABASE_HOST=franquicias-db.cgps4ca6uu8j.us-east-1.rds.amazonaws.com -e DATABASE_USERNAME=postgres  -e DATABASE_PASSWORD=postgres brayang112/microservicio-franquicias:latest
+```
+
+> 🧠 **Nota:** Asegúrate de ajustar las variables de entorno según lo que necesite tu aplicación (como credenciales, URLs, perfiles, etc).
+
+---
+
+## 5️⃣ Ver logs de ejecución (opcional)
+
+```bash
+docker logs -f franquicias
+```
+
+---
+
+## 6️⃣ Parar y eliminar el contenedor (opcional)
+
+```bash
+docker stop franquicias
+docker rm franquicias
+```
+
+---
+
+## 🔎 Probar la API con Postman (opcional)
+
+Hemos incluido una colección de Postman que contiene ejemplos de las peticiones disponibles en el microservicio.
+
+### 📅 Descargar la colección
+
+Puedes encontrar el archivo `.json` en la raíz del proyecto:
+
+```
+postman/FranquiciasCollection.postman_collection.json
+```
+
+### 📂 Importar en Postman
+
+1. Abre Postman
+2. Haz clic en `Import`
+3. Selecciona el archivo `.json` de la colección
+4. Ejecuta las peticiones desde ahí 🚀
+
+---
+
+## ℹ️ Notas adicionales
+
+* Si necesitas regenerar la imagen localmente, puedes seguir las instrucciones en el archivo `Dockerfile`.
+* Si el contenedor tiene problemas de certificado SSL al conectarse con RDS, revisa que esté importado correctamente el certificado en la imagen.
+
+---
+
+
