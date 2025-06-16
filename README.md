@@ -184,3 +184,99 @@ postman/FranquiciasCollection.postman_collection.json
 * Si el contenedor tiene problemas de certificado SSL al conectarse con RDS, revisa que esté importado correctamente el certificado en la imagen.
 
 
+# ☁️ Despliegue de infraestructura con Terraform en AWS
+
+Este proyecto incluye una infraestructura automatizada que puede desplegarse usando Terraform.
+
+---
+
+## 1️⃣ Pre-requisitos
+
+Antes de iniciar, asegúrate de tener instalado:
+
+* [Terraform](https://www.terraform.io/) (versión 1.3+)
+* Una cuenta en [AWS](https://aws.amazon.com/)
+* Tener configurado el AWS CLI con tus credenciales:
+
+```bash
+aws configure
+```
+
+---
+
+## 2️⃣ Configuración del entorno AWS
+
+Crea un archivo `terraform.tfvars` con los siguientes valores:
+
+```hcl
+region        = "us-east-1"
+db_username   = "postgres"
+db_password   = "postgres"
+```
+
+También puedes definirlos como variables de entorno si lo prefieres.
+
+---
+
+## 3️⃣ Inicializar y desplegar infraestructura
+
+### 3.1. Inicializa Terraform
+
+```bash
+terraform init
+```
+
+### 3.2. Visualiza los recursos que se van a crear
+
+```bash
+terraform plan 
+```
+
+### 3.3. Aplica los cambios
+
+```bash
+terraform apply 
+```
+
+Esto creará:
+
+* Un RDS PostgreSQL
+* Security groups
+* Un EC2 con el contenedor Docker
+* Parámetros necesarios para conexión
+
+---
+
+## 4️⃣ Verifica los recursos creados
+
+Terraform mostrará las salidas configuradas como:
+
+* Endpoint de RDS
+* IP pública de la EC2
+
+Puedes acceder a la IP pública para verificar que el contenedor esté corriendo correctamente.
+
+---
+
+## 5️⃣ Destruir la infraestructura
+
+Para eliminar todos los recursos creados por Terraform:
+
+```bash
+terraform destroy
+```
+
+⚠️ Asegúrate de detener o eliminar manualmente cualquier recurso que esté impidiendo la destrucción, como instancias que aún usen grupos de parámetros (por ejemplo, RDS debe estar apagado antes de eliminar el DB Parameter Group).
+
+---
+
+## 🧠 Notas importantes
+
+* Si usas RDS con certificados SSL, asegúrate de configurar la instancia correctamente.
+* Asegúrate de que las variables en Terraform coincidan con las del contenedor Docker si lo ejecutas manualmente.
+* Si haces pruebas locales, recuerda desactivar `ssl` en la configuración del adaptador de PostgreSQL.
+
+---
+
+Este README cubre desde el despliegue con Terraform hasta la eliminación completa. Para instrucciones de ejecución local con Docker o IntelliJ, consulta las secciones anteriores.
+
