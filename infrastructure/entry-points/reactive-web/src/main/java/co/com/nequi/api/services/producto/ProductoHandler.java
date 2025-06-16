@@ -1,6 +1,7 @@
 package co.com.nequi.api.services.producto;
 
 import co.com.nequi.api.builder.ProductoBuilder;
+import co.com.nequi.api.commons.utils.ResponseUtil;
 import co.com.nequi.usecase.productos.ActualizarProductoUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,8 @@ public class ProductoHandler {
         return productoBuilder.construirProducto(serverRequest)
                 .flatMap(actualizarProductoUseCase::actualizarStockProducto)
                 .flatMap(productoBuilder::constuirProductoResponseDTO)
-                .flatMap(producto -> ServerResponse.ok().bodyValue(producto));
+                .flatMap(ResponseUtil::ok)
+                .onErrorResume(ResponseUtil::error);
     }
 
 

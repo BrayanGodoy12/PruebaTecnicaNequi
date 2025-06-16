@@ -2,6 +2,7 @@ package co.com.nequi.api.services.sucursal;
 
 import co.com.nequi.api.builder.ProductoBuilder;
 import co.com.nequi.api.builder.SucursalBuilder;
+import co.com.nequi.api.commons.utils.ResponseUtil;
 import co.com.nequi.usecase.sucursales.ActualizarSucursalUseCase;
 import co.com.nequi.usecase.sucursales.AgregarProductoSucursalUseCase;
 import co.com.nequi.usecase.sucursales.EliminarProductoSucursalUseCase;
@@ -25,19 +26,22 @@ public class SucursalHandler {
         return sucursalBuilder.actualizarSucursalEntity(serverRequest)
                 .flatMap(actualizarSucursalUseCase::actualizarSucursal)
                 .flatMap(sucursalBuilder::constuirSucursalResponseDTO)
-                .flatMap(sucursal -> ServerResponse.ok().bodyValue(sucursal));
+                .flatMap(ResponseUtil::ok)
+                .onErrorResume(ResponseUtil::error);
     }
 
     public Mono<ServerResponse> agregarProductoSucursal(ServerRequest serverRequest) {
         return sucursalBuilder.agregarProductoSucursal(serverRequest)
                 .flatMap(agregarProductoSucursalUseCase::agregarProducto)
                 .flatMap(productoBuilder::constuirProductoResponseDTO)
-                .flatMap(producto -> ServerResponse.ok().bodyValue(producto));
+                .flatMap(ResponseUtil::ok)
+                .onErrorResume(ResponseUtil::error);
     }
 
     public Mono<ServerResponse> eliminarProductoSucursal(ServerRequest serverRequest) {
         return productoBuilder.construirProductoId(serverRequest)
                 .flatMap(eliminarProductoSucursalUseCase::eliminarProductSucursal)
-                .flatMap(producto -> ServerResponse.ok().bodyValue(producto));
+                .flatMap(ResponseUtil::ok)
+                .onErrorResume(ResponseUtil::error);
     }
 }

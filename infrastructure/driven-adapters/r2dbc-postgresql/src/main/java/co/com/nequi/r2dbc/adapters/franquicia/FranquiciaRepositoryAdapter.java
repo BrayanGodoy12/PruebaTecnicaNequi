@@ -69,7 +69,8 @@ public class FranquiciaRepositoryAdapter extends ReactiveAdapterOperations<
                             .map(FranquiciaRepositoryAdapter::getFranquicia);
                 })
                 .switchIfEmpty(Mono.defer(() ->
-                        Mono.error(new BusinessException(BusinessErrorMessage.FRANQUICIA_NOT_FOUND))));
+                        Mono.error(new BusinessException(BusinessErrorMessage.FRANQUICIA_NOT_FOUND))))
+                .onErrorMap(throwable -> new BusinessException(BusinessErrorMessage.CONSULTAR_MAYOR_PRODUCTO_SUCURSAL_FAILED));
     }
 
     private static Franquicia getFranquicia(Tuple2<Franquicia, Franquicia> tuple) {
