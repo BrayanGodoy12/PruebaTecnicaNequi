@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "8d9b8d78-e5e5-40ee-94a2-4492d6749993",
+		"name": "PruebaTecnica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30409866"
+	},
+	"item": [
+		{
+			"name": "Crear franquicia",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"360-bancolombia-carros\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:8080/api/franquicia",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"franquicia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar franquicia",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"5263457d-6cd5-4ae8-8246-5f3a565bca5d\",\r\n    \"nombre\": \"360-bancolombia\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:8080/api/franquicia",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"franquicia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar sucursal",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idFranquicia\": \"5263457d-6cd5-4ae8-8246-5f3a565bca5d\",\r\n    \"nombre\": \"360-Vivienda\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:8080/api/franquicia/sucursal",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"franquicia",
+						"sucursal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar producto sucursal",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idSucursal\": \"b08f9a7c-26fd-4948-a2ed-806e7c36ece2\",\r\n    \"nombre\": \"Poblado-casas-actualizar\",\r\n    \"cantidad\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:8080/api/sucursal/producto",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sucursal",
+						"producto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar prodcuto sucursal",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:8080/api/sucursal/producto/653a06c1-0854-4064-9622-cc89d9d0f9c4",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sucursal",
+						"producto",
+						"653a06c1-0854-4064-9622-cc89d9d0f9c4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar producto",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"a2058670-3c03-46b4-85ab-8474358a4042\",\r\n    \"nombre\": \"Poblado-casas-actualizado\",\r\n    \"cantidad\": 30,\r\n    \"idSucursal\": \"b08f9a7c-26fd-4948-a2ed-806e7c36ece2\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:8080/api/producto",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"producto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar sucursal",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"b08f9a7c-26fd-4948-a2ed-806e7c36ece2\",\r\n    \"nombre\": \"360-Vivienda-actualizada\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:8080/api/sucursal",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sucursal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar productos por cantidad",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:8080/api/franquicia/mayor-producto/5263457d-6cd5-4ae8-8246-5f3a565bca5d",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"franquicia",
+						"mayor-producto",
+						"5263457d-6cd5-4ae8-8246-5f3a565bca5d"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

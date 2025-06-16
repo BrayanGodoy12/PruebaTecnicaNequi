@@ -1,0 +1,15 @@
+{
+	"id": "78b59719-a959-42af-9245-900be4133004",
+	"name": "pdn",
+	"values": [
+		{
+			"key": "host",
+			"value": "18.207.191.34",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-06-16T02:54:19.864Z",
+	"_postman_exported_using": "Postman/11.49.4"
+}
