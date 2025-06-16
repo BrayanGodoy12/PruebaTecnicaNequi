@@ -36,7 +36,8 @@ public class SucursalRepositoryAdapter extends ReactiveAdapterOperations<
                 })
                 .map(SucursalRepositoryAdapter::getSucursal)
                 .switchIfEmpty(Mono.defer(() ->
-                        Mono.error(new BusinessException(BusinessErrorMessage.SUCURSAL_UPDATE_FAILED))));
+                        Mono.error(new BusinessException(BusinessErrorMessage.SUCURSAL_UPDATE_FAILED))))
+                .onErrorMap(throwable -> new BusinessException(BusinessErrorMessage.SUCURSAL_UPDATE_FAILED));
     }
 
     @Override
@@ -46,7 +47,9 @@ public class SucursalRepositoryAdapter extends ReactiveAdapterOperations<
                 .flatMap(this::saveData)
                 .map(SucursalRepositoryAdapter::getSucursal)
                 .switchIfEmpty(Mono.defer(() ->
-                        Mono.error(new BusinessException(BusinessErrorMessage.SUCURSAL_CREATION_FAILED))));
+                        Mono.error(new BusinessException(BusinessErrorMessage.SUCURSAL_CREATION_FAILED))))
+                .onErrorMap(throwable ->
+                        new BusinessException(BusinessErrorMessage.SUCURSAL_FRANQUICIA_CREATION_FAILED));
     }
 
     private static Sucursal getSucursal(SucursalData sucursalData) {

@@ -32,7 +32,9 @@ public class ProductoRepositoryAdapter extends ReactiveAdapterOperations<
                 .flatMap(this::saveData)
                 .map(ProductoRepositoryAdapter::getProducto)
                 .switchIfEmpty(Mono.defer(() ->
-                        Mono.error(new BusinessException(BusinessErrorMessage.PRODUCTO_CREATION_FAILED))));
+                        Mono.error(new BusinessException(BusinessErrorMessage.PRODUCTO_CREATION_FAILED))))
+                .onErrorMap(throwable ->
+                        new BusinessException(BusinessErrorMessage.PRODUCTO_FRANQUICIA_CREATION_FAILED));
     }
 
     @Override
@@ -48,7 +50,8 @@ public class ProductoRepositoryAdapter extends ReactiveAdapterOperations<
                 })
                 .map(ProductoRepositoryAdapter::getProducto)
                 .switchIfEmpty(Mono.defer(() ->
-                        Mono.error(new BusinessException(BusinessErrorMessage.PRODUCTO_UPDATE_FAILED))));
+                        Mono.error(new BusinessException(BusinessErrorMessage.PRODUCTO_UPDATE_FAILED))))
+                .onErrorMap(throwable -> new BusinessException(BusinessErrorMessage.PRODUCTO_FRANQUICIA_CREATION_FAILED));
     }
 
     @Override
