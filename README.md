@@ -116,4 +116,36 @@ Utiliza Postman o tu navegador para probar la API.
 ```bash
 docker-compose down
 ```
----
+
+
+
+## 🚀 Correr proyecto desde un Docker
+🧰 Requisitos
+Tener instalado Docker en tu máquina.
+1. Descargar la imagen del microservicio
+
+```bash
+docker pull brayang112/microservicio-franquicias:latest
+```
+2. Ejecutar el contenedor
+     ```bash
+   docker run -d --name franquicias \
+    -p 8080:8080 \
+    -e DATABASE_HOST=franquicias-db.cgps4ca6uu8j.us-east-1.rds.amazonaws.com \
+    -e DATABASE_USERNAME=postgres \
+    -e DATABASE_PASSWORD=postgres \
+    brayang112/microservicio-franquicias:latest
+    ```
+    - `-d`: Ejecuta el contenedor en segundo plano.
+    - `--name franquicias`: Asigna un nombre al contenedor.
+    - `-p 8080:8080`: Mapea el puerto 8080 del contenedor al puerto 8080 de tu máquina local.
+    - `-e`: Establece las variables de entorno necesarias para la conexión a la base de datos.
+3. Verifica que el contenedor esté corriendo
+```bash
+docker ps
+```
+4. Ver logs
+```bash
+docker logs franquicias
+```
+5. Accede a la aplicación
