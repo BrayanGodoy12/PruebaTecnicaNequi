@@ -46,74 +46,237 @@ Este módulo es el más externo de la arquitectura, es el encargado de ensamblar
 
 **Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
 
+# 🐳 Despliegue local usando Docker
 
+Este proyecto puede ejecutarse fácilmente utilizando Docker o directamente desde IntelliJ. A continuación te explicamos cómo hacerlo paso a paso.
 
-# 🏗️ Paso a paso para levantar el proyecto
+---
 
-## 1. Clona el repositorio
+## 1️⃣ Pre-requisitos
+
+Asegúrate de tener instalado:
+
+* [Docker](https://www.docker.com/get-started) (versión 20+ recomendada)
+* [Git](https://git-scm.com/) (para clonar el proyecto si deseas construir localmente)
+* [Java 21 SDK](https://adoptium.net/) (si vas a correr desde IntelliJ)
+
+---
+
+## 2️⃣ Ejecutar desde IntelliJ 🧠
+
+### 2.1. Variables de entorno necesarias
+
+Agrega las siguientes variables de entorno a tu configuración de ejecución:
+
+```
+DATABASE_HOST=localhost
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+```
+
+### 2.2. Montar PostgreSQL en Docker
+
+Puedes usar el siguiente comando para levantar una base de datos PostgreSQL local:
 
 ```bash
-git clone https://github.com/BrayanGodoy12/PruebaTecnicaNequi.git
+docker run --name postgres-franquicias -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:14
+```
+
+### 2.3. Inicializar el esquema de base de datos
+
+En el proyecto encontrarás un script en `deployment/init-db.sql`. Puedes cargarlo usando alguna herramienta como DBeaver, TablePlus o con el siguiente comando:
+
+```bash
+docker exec -i postgres-franquicias psql -U postgres -d postgres < deployment/init-db.sql
+```
+
+### 2.4. Deshabilitar SSL para pruebas locales
+
+En el archivo de configuración donde se establece la conexión a la base de datos (por ejemplo, `application.yml` o `application.properties`), asegúrate de que el adaptador de PostgreSQL tenga SSL deshabilitado:
+
+```yaml
+PostgreSQLConnectionPool.java
+```
+
+---
+
+## 3️⃣ Clonar el proyecto y construir la imagen localmente (opcional)
+
+Si deseas construir la imagen desde el código fuente localmente:
+
+```bash
+git clone https://github.com/BrayanGodoy12/PruebaTecnicaNequi
 cd PruebaTecnicaNequi
+./gradlew clean build # o el comando que uses para generar el JAR
 ```
 
+Asegúrate de que el `.jar` generado esté en la misma ruta donde está tu `Dockerfile`. Luego, construye la imagen:
 
-
-
-## 🧰 Requisitos
-
-- Docker
-- Docker Compose
+```bash
+docker build -t brayang112/microservicio-franquicias:latest .
+```
 
 ---
 
-## 📦 Estructura esperada
+## 4️⃣ Descargar la imagen desde Docker Hub (opcional)
 
-Asegúrate de tener estos archivos en la misma carpeta:
-
-```plaintext
-deployment/
-├── Dockerfile
-├── docker-compose.yaml
-├── PruebaTecnicaNequi.jar
-└── init.sql
-```
-
-## 🐳 Pasos para levantar el entorno
-
-### 1. Clona o descomprime este repositorio
-
-Si te compartieron un `.zip`, simplemente descomprímelo.
-
-Si es por git:
+Si no deseas construir localmente, simplemente puedes descargar la imagen ya publicada:
 
 ```bash
-git clone <repositorio>
-cd deployment
+docker pull brayang112/microservicio-franquicias:latest
 ```
-### 2. Construye y levanta los contenedores
-bash
-```bash
-docker-compose up --build
-```
-Este comando:
 
-- Construye la imagen de la app (prueba-tecnica-nequi)
-- Levanta un contenedor de PostgreSQL con la base franquiciasdb y el schema
-- Expone el microservicio en http://localhost:8080
-
-### 3. Verifica que los contenedores estén corriendo
-
-```bash
-docker ps
-```
-### 4. La aplicación Spring Boot debería estar corriendo
-Puedes verificarlo accediendo a: curl http://localhost:8080
-Utiliza Postman o tu navegador para probar la API.
-
-### 5. Para detener los contenedores
-
-```bash
-docker-compose down
-```
 ---
+
+## 5️⃣ Ejecutar el contenedor
+
+Puedes ejecutar el contenedor con las variables necesarias de configuración:
+
+```bash
+docker run -d --name franquicias -p 8080:8080 -e DATABASE_HOST=franquicias-db.cgps4ca6uu8j.us-east-1.rds.amazonaws.com -e DATABASE_USERNAME=postgres  -e DATABASE_PASSWORD=postgres brayang112/microservicio-franquicias:latest
+```
+
+> 🧠 **Nota:** Asegúrate de ajustar las variables de entorno según lo que necesite tu aplicación (como credenciales, URLs, perfiles, etc).
+
+---
+
+## 6️⃣ Ver logs de ejecución (opcional)
+
+```bash
+docker logs -f franquicias
+```
+
+---
+
+## 7️⃣ Parar y eliminar el contenedor (opcional)
+
+```bash
+docker stop franquicias
+docker rm franquicias
+```
+
+---
+
+## 🔎 Probar la API con Postman (opcional)
+
+Hemos incluido una colección de Postman que contiene ejemplos de las peticiones disponibles en el microservicio.
+
+### 📅 Descargar la colección
+
+Puedes encontrar el archivo `.json` en la raíz del proyecto:
+
+```
+postman/FranquiciasCollection.postman_collection.json
+```
+
+### 📂 Importar en Postman
+
+1. Abre Postman
+2. Haz clic en `Import`
+3. Selecciona el archivo `.json` de la colección
+4. Ejecuta las peticiones desde ahí 🚀
+
+---
+
+## ℹ️ Notas adicionales
+
+* Si necesitas regenerar la imagen localmente, puedes seguir las instrucciones en el archivo `Dockerfile`.
+* Si el contenedor tiene problemas de certificado SSL al conectarse con RDS, revisa que esté importado correctamente el certificado en la imagen.
+
+
+# ☁️ Despliegue de infraestructura con Terraform en AWS
+
+Este proyecto incluye una infraestructura automatizada que puede desplegarse usando Terraform.
+
+---
+
+## 1️⃣ Pre-requisitos
+
+Antes de iniciar, asegúrate de tener instalado:
+
+* [Terraform](https://www.terraform.io/) (versión 1.3+)
+* Una cuenta en [AWS](https://aws.amazon.com/)
+* Tener configurado el AWS CLI con tus credenciales:
+
+```bash
+aws configure
+```
+
+---
+
+## 2️⃣ Configuración del entorno AWS
+
+Crea un archivo `terraform.tfvars` con los siguientes valores:
+
+```hcl
+region        = "us-east-1"
+db_username   = "postgres"
+db_password   = "postgres"
+```
+
+También puedes definirlos como variables de entorno si lo prefieres.
+
+---
+
+## 3️⃣ Inicializar y desplegar infraestructura
+
+### 3.1. Inicializa Terraform
+
+```bash
+terraform init
+```
+
+### 3.2. Visualiza los recursos que se van a crear
+
+```bash
+terraform plan 
+```
+
+### 3.3. Aplica los cambios
+
+```bash
+terraform apply 
+```
+
+Esto creará:
+
+* Un RDS PostgreSQL
+* Security groups
+* Un EC2 con el contenedor Docker
+* Parámetros necesarios para conexión
+
+---
+
+## 4️⃣ Verifica los recursos creados
+
+Terraform mostrará las salidas configuradas como:
+
+* Endpoint de RDS
+* IP pública de la EC2
+
+Puedes acceder a la IP pública para verificar que el contenedor esté corriendo correctamente.
+
+---
+
+## 5️⃣ Destruir la infraestructura
+
+Para eliminar todos los recursos creados por Terraform:
+
+```bash
+terraform destroy
+```
+
+⚠️ Asegúrate de detener o eliminar manualmente cualquier recurso que esté impidiendo la destrucción, como instancias que aún usen grupos de parámetros (por ejemplo, RDS debe estar apagado antes de eliminar el DB Parameter Group).
+
+---
+
+## 🧠 Notas importantes
+
+* Si usas RDS con certificados SSL, asegúrate de configurar la instancia correctamente.
+* Asegúrate de que las variables en Terraform coincidan con las del contenedor Docker si lo ejecutas manualmente.
+* Si haces pruebas locales, recuerda desactivar `ssl` en la configuración del adaptador de PostgreSQL.
+
+---
+
+Este README cubre desde el despliegue con Terraform hasta la eliminación completa. Para instrucciones de ejecución local con Docker o IntelliJ, consulta las secciones anteriores.
+
