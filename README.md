@@ -48,7 +48,7 @@ Este módulo es el más externo de la arquitectura, es el encargado de ensamblar
 
 # 🐳 Despliegue local usando Docker
 
-Este proyecto puede ejecutarse fácilmente utilizando Docker. A continuación te explicamos cómo hacerlo paso a paso.
+Este proyecto puede ejecutarse fácilmente utilizando Docker o directamente desde IntelliJ. A continuación te explicamos cómo hacerlo paso a paso.
 
 ---
 
@@ -58,10 +58,49 @@ Asegúrate de tener instalado:
 
 * [Docker](https://www.docker.com/get-started) (versión 20+ recomendada)
 * [Git](https://git-scm.com/) (para clonar el proyecto si deseas construir localmente)
+* [Java 21 SDK](https://adoptium.net/) (si vas a correr desde IntelliJ)
 
 ---
 
-## 2️⃣ Clonar el proyecto y construir la imagen localmente (opcional)
+## 2️⃣ Ejecutar desde IntelliJ 🧠
+
+### 2.1. Variables de entorno necesarias
+
+Agrega las siguientes variables de entorno a tu configuración de ejecución:
+
+```
+DATABASE_HOST=localhost
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+```
+
+### 2.2. Montar PostgreSQL en Docker
+
+Puedes usar el siguiente comando para levantar una base de datos PostgreSQL local:
+
+```bash
+docker run --name postgres-franquicias -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:14
+```
+
+### 2.3. Inicializar el esquema de base de datos
+
+En el proyecto encontrarás un script en `deployment/init-db.sql`. Puedes cargarlo usando alguna herramienta como DBeaver, TablePlus o con el siguiente comando:
+
+```bash
+docker exec -i postgres-franquicias psql -U postgres -d postgres < deployment/init-db.sql
+```
+
+### 2.4. Deshabilitar SSL para pruebas locales
+
+En el archivo de configuración donde se establece la conexión a la base de datos (por ejemplo, `application.yml` o `application.properties`), asegúrate de que el adaptador de PostgreSQL tenga SSL deshabilitado:
+
+```yaml
+PostgreSQLConnectionPool.java
+```
+
+---
+
+## 3️⃣ Clonar el proyecto y construir la imagen localmente (opcional)
 
 Si deseas construir la imagen desde el código fuente localmente:
 
@@ -79,7 +118,7 @@ docker build -t brayang112/microservicio-franquicias:latest .
 
 ---
 
-## 3️⃣ Descargar la imagen desde Docker Hub (opcional)
+## 4️⃣ Descargar la imagen desde Docker Hub (opcional)
 
 Si no deseas construir localmente, simplemente puedes descargar la imagen ya publicada:
 
@@ -89,11 +128,9 @@ docker pull brayang112/microservicio-franquicias:latest
 
 ---
 
-## 4️⃣ Ejecutar el contenedor
+## 5️⃣ Ejecutar el contenedor
 
-Puedes ejecutar el contenedor con las variables necesarias de configuración (por ejemplo, las variables de conexión a base de datos, entorno, etc.).
-
-Ejemplo:
+Puedes ejecutar el contenedor con las variables necesarias de configuración:
 
 ```bash
 docker run -d --name franquicias -p 8080:8080 -e DATABASE_HOST=franquicias-db.cgps4ca6uu8j.us-east-1.rds.amazonaws.com -e DATABASE_USERNAME=postgres  -e DATABASE_PASSWORD=postgres brayang112/microservicio-franquicias:latest
@@ -103,7 +140,7 @@ docker run -d --name franquicias -p 8080:8080 -e DATABASE_HOST=franquicias-db.cg
 
 ---
 
-## 5️⃣ Ver logs de ejecución (opcional)
+## 6️⃣ Ver logs de ejecución (opcional)
 
 ```bash
 docker logs -f franquicias
@@ -111,7 +148,7 @@ docker logs -f franquicias
 
 ---
 
-## 6️⃣ Parar y eliminar el contenedor (opcional)
+## 7️⃣ Parar y eliminar el contenedor (opcional)
 
 ```bash
 docker stop franquicias
@@ -145,7 +182,5 @@ postman/FranquiciasCollection.postman_collection.json
 
 * Si necesitas regenerar la imagen localmente, puedes seguir las instrucciones en el archivo `Dockerfile`.
 * Si el contenedor tiene problemas de certificado SSL al conectarse con RDS, revisa que esté importado correctamente el certificado en la imagen.
-
----
 
 
